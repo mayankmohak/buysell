@@ -1,0 +1,25 @@
+.img-fluid {
+	margin: 10%;
+    max-width: 70%;
+    height: auto;
+}
+header{
+	z-index: 2;
+	transition: background-color 0.2s;
+	min-height: 10vh;
+	text-align: center;
+	font-family: 'Philosopher';
+	font-size: 4rem;
+	position: fixed;
+	width: 100%;
+}
+footer{
+	background-color: #454B69;
+  transition: background-color 0.2s; 
+  min-height: 10vh;
+	text-align: center;
+  font-family: Syne, sans-serif;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
