@@ -1,9 +1,52 @@
-<!-- Name: Mayank Mohak
-    Email: mayank8199@gmail.com
-      I am a coder. contact: 9525177622
-      please feell free to ask for help and any project 
-      mail me at mayank8199@gmail.com -->
 <?php session_start(); ?>
+<!-- PHP starts here -->
+<?php
+
+$notify = $err = "";
+include_once('validation.php');
+
+if(isset($_POST['Submit'])){
+  require_once('connect.php');
+
+  $userid = $_POST['user'];
+  $pass = $_POST['pass'];//do md5 at last
+  $gotopage = $_POST['buy-sel'];
+
+  //this is to check if either of the fields are vacaent
+  if (empty($userid) || empty($pass) ) {
+    $err = "Please fill all the fields";
+  }else{
+    $stmt=$con->prepare('SELECT roll, email, password, username FROM users');
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $stmt->close();
+    
+    $found = false;
+    while($row = $res->fetch_assoc()){
+      if($userid == $row['roll'] || $userid == $row['email']){
+        $found = true;
+        if($pass == $row['password']){
+          $_SESSION['userid'] = $userid;
+          $_SESSION['username'] = $row['username'];
+
+          if ($gotopage == 'b'){
+            echo "correct";
+            header('location:./buy.php');
+            
+          }
+          if ($gotopage == 's')
+            header('location:./sell.php');
+        }else{
+          $err = "Wrong Password !!";
+        }
+      }
+    }
+    if($found==false){
+      $err = "UserName Not Found Do Register !!";
+    }
+  }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,9 +132,11 @@
         </br>
         <h4>LOGIN</h4>
           </br>
+        <p style="color:red"><b><?php echo $err; ?></b></p>
+				<p style="color:green"><b><?php echo $notify; ?></b></p>
         <form method="POST" action="index.php">
           <center>
-          <input type="text" id="roll" class="form-control" placeholder="roll number" name="roll" autofocus required />
+          <input type="text" id="roll" class="form-control" placeholder="roll or E-mail" name="user" autofocus required />
             </br></br>
           <input type="password" id="userPassword" class="form-control" placeholder="password" name="pass"required/>
             </br>
@@ -112,63 +157,6 @@
   </div>
   </br></br></br>
 <!-- FOOTER -->
-  <footer>2020 &copy; Made with <font color="red">&hearts;</font> by Lakshya  </footer>
+  <footer>2020 &copy; Made with <font color="red">&hearts;</font> by Mayank Mohak  </footer>
 </body>
 </html>
-<!-- PHP starts here -->
-<?php
-
-if(isset($_POST['Submit'])){
-  
-    $con=mysqli_connect('localhost','root','','buy-sell');
-    // $con=mysqli_connect('sql211.epizy.com','epiz_27178478','5Dkmn56NmlLvE','epiz_27178478_buysell');
-
-  if (!$con) {
-    die("DB Connection failed");
-  }
-  else{
-    $roll = $_POST['roll'];
-    $pass = $_POST['pass'];//do md5 at last
-
-    $sql = "SELECT * FROM users";
-    $result = mysqli_query($con,$sql);
-    $num_row = mysqli_num_rows($result);
-
-    if($num_row > 0){
-      while($row = mysqli_fetch_array($result)){
-
-        //this is to check if either of the fields are vacaent
-        if (empty($roll) || empty($pass) ) {
-          echo '<script>alert("please fill all the fields")</script>';
-        } 
-        
-        //this part is to chk if the pass and username are correct
-        else if($roll == $row["roll"] && $pass == $row["password"]){
-
-          $_SESSION['roll'] = $roll;
-          $_SESSION['username'] = $row['username'];
-
-
-          if ($_POST['buy-sel'] == 'b')
-            header('location:buy.php');
-          if ($_POST['buy-sel'] == 's') 
-            header('location:sell.php');
-        }
-        
-        else 
-          echo '<script>alert("Wrong Password or UserName")</script>';
-      }
-    }
-  }
-}
-?>
-
-
-
-
-
-<!-- Name: Mayank Mohak
-    Email: mayank8199@gmail.com
-      I am a coder. contact: 9525177622
-      please feell free to ask for help and any project 
-      mail me at mayank8199@gmail.com -->

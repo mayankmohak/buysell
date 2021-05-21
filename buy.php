@@ -1,10 +1,5 @@
-<!-- Name: Mayank Mohak
-    Email: mayank8199@gmail.com
-      I am a coder. contact: 9525177622
-      please feell free to ask for help and any project 
-      mail me at mayank8199@gmail.com -->
 <?php session_start();
-if(!isset($_SESSION['roll'])){
+if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
   header('location:index.php');
 }
 ?>
@@ -88,62 +83,52 @@ if(!isset($_SESSION['roll'])){
 <!-- MAIN CONTAINT -->
 <br><br><br><br>
 <?php
-    $con=mysqli_connect('localhost','root','','buy-sell');
-    // $con=mysqli_connect('sql211.epizy.com','epiz_27178478','5Dkmn56NmlLvE','epiz_27178478_buysell');
+  require_once('connect.php');
   
-  if (!$con) {
-    die("DB Connection failed");
-  }
-  else{
-    $sql = "SELECT * FROM products";
+  $stmt=$con->prepare('SELECT * FROM products');
+  $stmt->execute();
+  $res = $stmt->get_result();
+  $stmt->close();
 
-    $res = mysqli_query($con,$sql);
-    $num_rows = mysqli_num_rows($res);
-
-    if($num_rows>0){
-      echo '
-      <div class="container">
-        <div class="row">';
-      while($row=mysqli_fetch_array($res)){
-        
-        echo '<div class="col-md-5 card">';
-              $imgname = $row['img'];
-              if($row['img']){
-                echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
-              }else{
-                echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
-              }
-
-            echo '
-            <div class="card-body">
-            <hr><b>
-            '.$row['name'].'
-             </b><hr>
-            ';
-            $sql1 = "SELECT * FROM users";
-            $res1 = mysqli_query($con,$sql1);
-            $num_rows1 = mysqli_num_rows($res1);
-            if($num_rows1){
-              while($row1=mysqli_fetch_array($res1) ){
-                if($row['ownerroll'] == $row1['roll'])
-                  echo '<b>CONTACT: </b>'.$row1['contact'];
-              }
-            }
-            echo '<hr>
-            '.$row['details'].'
-            </div>
-          </div>
-          ';
-      }
-      echo '
-      </div>';
-    }
-  }
 ?>
+  <div class="container">
+    <div class="row">';
+<?php
+    while($row = $res->fetch_assoc()){
+?>
+      <div class="col-md-5 card">
+<?php
+        $imgname = $row['img'];
+        if($row['img']){
+          echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
+        }else{
+          echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
+        }
+?>
+        <div class="card-body">
+          <hr><b>
+          <?php echo $row['name'];?>
+          </b><hr>
+<?php
+          $stmt1 =$con->prepare("SELECT contact, roll FROM users WHERE roll = ? ");
+          $stmt1->bind_param("s", $row['ownerroll']);
+          $stmt1->execute();
+          $res1 = $stmt1->get_result();
+          $stmt1->close();
+          $row1 = $res1->fetch_assoc();
+          if($row1 && $row['ownerroll'] == $row1['roll'])
+            echo '<b>CONTACT : </b>'.$row1['contact'];
+          else
+            echo '<b>CONTACT : </b> 9525177622';
+?>
+          <hr>
+          <?php echo $row['details']; ?>
+        </div>
+      </div>
+<?php 
+    }
+?>
+    </div>
+  </div>
 </body>
 </html>
-<!-- Name: Mayank Mohak
-    Email: mayank8199@gmail.com
-      I am a coder. contact: 9525177622
-      please feell free to ask for help and any project 
-      mail me at mayank8199@gmail.com -->
