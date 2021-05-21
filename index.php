@@ -140,14 +140,12 @@ if(isset($_POST['Submit'])){
         //this is to check if either of the fields are vacaent
         if (empty($roll) || empty($pass) ) {
           echo '<script>alert("please fill all the fields")</script>';
-        } 
-        
+        }
         //this part is to chk if the pass and username are correct
         else if($roll == $row["roll"] && $pass == $row["password"]){
 
           $_SESSION['roll'] = $roll;
           $_SESSION['username'] = $row['username'];
-
 
           if ($_POST['buy-sel'] == 'b')
             header('location:buy.php');
