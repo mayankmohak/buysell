@@ -1,10 +1,5 @@
-<!-- Name: Mayank Mohak
-    Email: mayank8199@gmail.com
-      I am a coder. contact: 9525177622
-      please feell free to ask for help and any project 
-      mail me at mayank8199@gmail.com -->
 <?php session_start();
-if(!isset($_SESSION['roll'])){
+if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
   header('location:index.php');
 }
 ?>
@@ -18,58 +13,13 @@ if(!isset($_SESSION['roll'])){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/buy.css" media="screen">
   <!-- Symbol -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- STYLE -->
   <style type="text/css">
   	@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
-  	header{
-      /*background-color: white;*/
-      z-index: 2;
-      transition: background-color 0.2s;
-      min-height: 10vh;
-      text-align: center;
-      font-family: 'Philosopher';
-      font-size: 4rem;
-      position: fixed;
-      width: 100%;
-    }
-    @media (max-width: 556px) {
-      header{
-        font-size: 3rem;
-      }
-    }
-
-    .card{
-      /*margin: 1rem;*/
-      border-radius: 25px;
-    }
-    .col-md-5{
-      margin: 2.5rem;
-    }
-    .user{
-      font-family: arial;
-      font-size: 40%;
-      display: inline-block;
-      float: right;
-      margin-top: 2%;
-    }
-    .hide{
-      display: inline-block;
-    }
-    @media (max-width: 432px) {
-      header{
-        font-size: 2rem;
-      }
-      .user{
-        font-size: 70%
-      }
-    }
-    @media (max-width: 318px){
-      .hide{
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
@@ -88,62 +38,56 @@ if(!isset($_SESSION['roll'])){
 <!-- MAIN CONTAINT -->
 <br><br><br><br>
 <?php
-    $con=mysqli_connect('localhost','root','','buy-sell');
-    // $con=mysqli_connect('sql211.epizy.com','epiz_27178478','5Dkmn56NmlLvE','epiz_27178478_buysell');
+  require_once('connect.php');
   
-  if (!$con) {
-    die("DB Connection failed");
-  }
-  else{
-    $sql = "SELECT * FROM products";
+  $stmt=$con->prepare('SELECT * FROM products');
+  $stmt->execute();
+  $res = $stmt->get_result();
+  $stmt->close();
 
-    $res = mysqli_query($con,$sql);
-    $num_rows = mysqli_num_rows($res);
-
-    if($num_rows>0){
-      echo '
-      <div class="container">
-        <div class="row">';
-      while($row=mysqli_fetch_array($res)){
-        
-        echo '<div class="col-md-5 card">';
-              $imgname = $row['img'];
-              if($row['img']){
-                echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
-              }else{
-                echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
-              }
-
-            echo '
-            <div class="card-body">
-            <hr><b>
-            '.$row['name'].'
-             </b><hr>
-            ';
-            $sql1 = "SELECT * FROM users";
-            $res1 = mysqli_query($con,$sql1);
-            $num_rows1 = mysqli_num_rows($res1);
-            if($num_rows1){
-              while($row1=mysqli_fetch_array($res1) ){
-                if($row['ownerroll'] == $row1['roll'])
-                  echo '<b>CONTACT: </b>'.$row1['contact'];
-              }
-            }
-            echo '<hr>
-            '.$row['details'].'
-            </div>
-          </div>
-          ';
-      }
-      echo '
-      </div>';
-    }
-  }
 ?>
+  <div class="container">
+    <div class="row">
+<?php
+    while($row = $res->fetch_assoc()){
+      if($row['status']=='available'){
+?>
+        <div class="col-md-5 card">
+<?php
+          $imgname = $row['img'];
+          if(isset($row['img'])){
+            echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
+          }else{
+            echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
+          }
+?>
+          <div class="card-body">
+            <hr><b>
+            <?php echo $row['name'];?>
+            </b><hr>
+<?php
+            $stmt1 =$con->prepare("SELECT contact, roll FROM users WHERE roll = ? ");
+            $stmt1->bind_param("s", $row['ownerroll']);
+            $stmt1->execute();
+            $res1 = $stmt1->get_result();
+            $stmt1->close();
+            $row1 = $res1->fetch_assoc();
+            if($row1 && $row['ownerroll'] == $row1['roll'])
+              echo '<b>CONTACT : </b>'.$row1['contact'];
+            else
+              echo '<b>CONTACT : </b> 9525177622';
+?>
+            <hr>
+            <?php echo $row['details']; ?>
+          </div>
+        </div>
+<?php 
+      }
+    }
+?>
+    </div>
+  </div>
+<!-- FOOTER -->
+  <footer>2020 &copy; Made with <font color="red">&hearts;</font> by <a href="https://github.com/mayankmohak">Mayank Mohak</a>  </footer>
 </body>
 </html>
-<!-- Name: Mayank Mohak
-    Email: mayank8199@gmail.com
-      I am a coder. contact: 9525177622
-      please feell free to ask for help and any project 
-      mail me at mayank8199@gmail.com -->

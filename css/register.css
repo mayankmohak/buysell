@@ -1,0 +1,57 @@
+header{
+  background-color: white;
+  z-index: 2;
+  transition: background-color 0.2s;
+  min-height: 15vh;
+  text-align: center;
+  font-family: 'Philosopher';
+  font-size: 4rem;
+  position: fixed;
+  width: 100%;
+}
+@media (max-width: 664px) {
+  header{
+    font-size: 3rem;
+  }
+}
+@media (max-width: 310px) {
+  header{
+    font-size: 2rem;
+  }
+}
+.img-fluid {
+  margin: 10%;
+  max-width: 70%;
+  height: auto;
+}
+.title{
+  font-family: "Allerta Stencil", Sans-serif;
+  font-size: 2rem;
+}
+.col-md-6:hover{
+  background-color: white;
+}
+.lable{
+  font-family: arial;
+  font-size: 1rem;
+  text-align: left;
+}
+.form-control{
+  display: inline-block;
+  margin-top: 3px;
+  margin-bottom: 4px;
+  background: transparent!important;
+  font-size: 18px!important;
+  border-radius: 10px;
+}
+footer{
+  background-color: #454B69;
+  transition: background-color 0.2s; 
+  min-height: 10vh;
+  text-align: center;
+  font-family: Syne, sans-serif;
+  color: white;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
