@@ -13,58 +13,13 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/buy.css" media="screen">
   <!-- Symbol -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- STYLE -->
   <style type="text/css">
   	@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
-  	header{
-      /*background-color: white;*/
-      z-index: 2;
-      transition: background-color 0.2s;
-      min-height: 10vh;
-      text-align: center;
-      font-family: 'Philosopher';
-      font-size: 4rem;
-      position: fixed;
-      width: 100%;
-    }
-    @media (max-width: 556px) {
-      header{
-        font-size: 3rem;
-      }
-    }
-
-    .card{
-      /*margin: 1rem;*/
-      border-radius: 25px;
-    }
-    .col-md-5{
-      margin: 2.5rem;
-    }
-    .user{
-      font-family: arial;
-      font-size: 40%;
-      display: inline-block;
-      float: right;
-      margin-top: 2%;
-    }
-    .hide{
-      display: inline-block;
-    }
-    @media (max-width: 432px) {
-      header{
-        font-size: 2rem;
-      }
-      .user{
-        font-size: 70%
-      }
-    }
-    @media (max-width: 318px){
-      .hide{
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
@@ -92,43 +47,47 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
 
 ?>
   <div class="container">
-    <div class="row">';
+    <div class="row">
 <?php
     while($row = $res->fetch_assoc()){
+      if($row['status']=='available'){
 ?>
-      <div class="col-md-5 card">
+        <div class="col-md-5 card">
 <?php
-        $imgname = $row['img'];
-        if($row['img']){
-          echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
-        }else{
-          echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
-        }
+          $imgname = $row['img'];
+          if(isset($row['img'])){
+            echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
+          }else{
+            echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
+          }
 ?>
-        <div class="card-body">
-          <hr><b>
-          <?php echo $row['name'];?>
-          </b><hr>
+          <div class="card-body">
+            <hr><b>
+            <?php echo $row['name'];?>
+            </b><hr>
 <?php
-          $stmt1 =$con->prepare("SELECT contact, roll FROM users WHERE roll = ? ");
-          $stmt1->bind_param("s", $row['ownerroll']);
-          $stmt1->execute();
-          $res1 = $stmt1->get_result();
-          $stmt1->close();
-          $row1 = $res1->fetch_assoc();
-          if($row1 && $row['ownerroll'] == $row1['roll'])
-            echo '<b>CONTACT : </b>'.$row1['contact'];
-          else
-            echo '<b>CONTACT : </b> 9525177622';
+            $stmt1 =$con->prepare("SELECT contact, roll FROM users WHERE roll = ? ");
+            $stmt1->bind_param("s", $row['ownerroll']);
+            $stmt1->execute();
+            $res1 = $stmt1->get_result();
+            $stmt1->close();
+            $row1 = $res1->fetch_assoc();
+            if($row1 && $row['ownerroll'] == $row1['roll'])
+              echo '<b>CONTACT : </b>'.$row1['contact'];
+            else
+              echo '<b>CONTACT : </b> 9525177622';
 ?>
-          <hr>
-          <?php echo $row['details']; ?>
+            <hr>
+            <?php echo $row['details']; ?>
+          </div>
         </div>
-      </div>
 <?php 
+      }
     }
 ?>
     </div>
   </div>
+<!-- FOOTER -->
+  <footer>2020 &copy; Made with <font color="red">&hearts;</font> by <a href="https://github.com/mayankmohak">Mayank Mohak</a>  </footer>
 </body>
 </html>

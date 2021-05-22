@@ -2,7 +2,8 @@
 <!-- PHP starts here -->
 <?php
 
-$notify = $err = "";
+$notify = "Username : Admin  &  Pass : 123456."; 
+$err = "";
 include_once('validation.php');
 
 if(isset($_POST['Submit'])){
@@ -32,7 +33,6 @@ if(isset($_POST['Submit'])){
           if ($gotopage == 'b'){
             echo "correct";
             header('location:./buy.php');
-            
           }
           if ($gotopage == 's')
             header('location:./sell.php');
@@ -57,63 +57,13 @@ if(isset($_POST['Submit'])){
   <meta html-equiv = "X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-  <!-- <link rel="stylesheet" href="css/index.css" media="screen"> -->
-  <!-- <link rel="stylesheet" href="css/login.css"media="screen"> -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/index.css" media="screen">
   <!-- fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
   <style>
   @import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
-  </style>
-  <style type="text/css">/*index.css*/
-    .img-fluid {
-      margin: 10%;
-        max-width: 70%;
-        height: auto;
-    }
-    header{
-      background-color: white;
-      z-index: 2;
-      transition: background-color 0.2s;
-      min-height: 10vh;
-      text-align: center;
-      font-family: 'Philosopher';
-      font-size: 4rem;
-      position: fixed;
-      width: 100%;
-    }
-    @media (max-width: 664px) {
-      header{
-        font-size: 3rem;
-      }
-    }
-    footer{
-      background-color: #454B69;
-      transition: background-color 0.2s; 
-      min-height: 10vh;
-      text-align: center;
-      font-family: Syne, sans-serif;
-      color: white;
-      bottom: 0;
-      position: fixed;
-      width: 100%;
-    }
-  </style>
-  <style type="text/css">/*login.css*/
-    .form-control{
-      background: transparent!important;
-      font-size: 18px!important;
-      width: 80%;
-      border-radius: 10px;
-    }
-
-    h4 {
-      font-family: "Allerta Stencil", Sans-serif;
-      border: 0 solid #fff; 
-      border-bottom-width:1px;
-      padding-bottom:10px;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
@@ -136,9 +86,9 @@ if(isset($_POST['Submit'])){
 				<p style="color:green"><b><?php echo $notify; ?></b></p>
         <form method="POST" action="index.php">
           <center>
-          <input type="text" id="roll" class="form-control" placeholder="roll or E-mail" name="user" autofocus required />
+          <input type="text" id="roll" class="form-control" placeholder="E-mail or Roll" name="user" autofocus required />
             </br></br>
-          <input type="password" id="userPassword" class="form-control" placeholder="password" name="pass"required/>
+          <input type="password" id="userPassword" class="form-control" placeholder="Password" name="pass"required/>
             </br>
           <input type="radio" id="buy" name="buy-sel" value="b" required>
           <label for="buy"> BUYER </label>
@@ -157,6 +107,6 @@ if(isset($_POST['Submit'])){
   </div>
   </br></br></br>
 <!-- FOOTER -->
-  <footer>2020 &copy; Made with <font color="red">&hearts;</font> by Mayank Mohak  </footer>
+<footer>2020 &copy; Made with <font color="red">&hearts;</font> by <a href="https://github.com/mayankmohak">Mayank Mohak</a>  </footer>
 </body>
 </html>

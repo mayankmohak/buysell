@@ -76,58 +76,12 @@ if(isset($_POST['Submit'])){
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
-	<!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
-	<!-- <link rel="stylesheet" type="text/css" href="css/login.css"> -->
+	<!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/sell.css" media="screen">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
 
 	<style type="text/css">
 		@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
-		header{
-			background-color: white;
-			z-index: 2;
-			transition: background-color 0.2s;
-			min-height: 15vh;
-			text-align: center;
-			font-family: 'Philosopher';
-			font-size: 4rem;
-			position: fixed;
-			width: 100%;
-		}
-		@media (max-width: 664px) {
-			header{
-				font-size: 3rem;
-			}
-		}
-		@media (max-width: 310px) {
-			header{
-				font-size: 2rem;
-			}
-		}
-		.img-fluid {
-			margin: 10%;
-			max-width: 70%;
-			height: auto;
-		}
-		.title{
-			font-family: "Allerta Stencil", Sans-serif;
-			font-size: 2rem;
-		}
-		.col-md-6:hover{
-			background-color: white;
-		}
-		.lable{
-			font-family: arial;
-			font-size: 1rem;
-			text-align: left;
-		}
-		.form-control{
-			display: inline-block;
-			margin-top: 3px;
-			margin-bottom: 4px;
-			background: transparent!important;
-			font-size: 18px!important;
-			border-radius: 10px;
-		}
 	</style>
 </head>
 <body>
@@ -152,7 +106,8 @@ if(isset($_POST['Submit'])){
           	NAME : <input type="text" id="name" class="form-control" name="name" placeholder="Full Name" style="width: 84%" required/>
           </div>
           <div class="lable">
-          	SEX : &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="male" name="gender" value="male">
+          	SEX : &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="male" name="gender" value="male">
 						<label for="male">Male</label>&nbsp;&nbsp;
 						<input type="radio" id="female" name="gender" value="female">
 						<label for="female">Female</label>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -178,5 +133,7 @@ if(isset($_POST['Submit'])){
   		</div>
   	</div>
   </div>
+<!-- FOOTER -->
+<footer>2020 &copy; Made with <font color="red">&hearts;</font> by <a  href="https://github.com/mayankmohak">Mayank Mohak</a>  </footer>
 </body>
 </html>

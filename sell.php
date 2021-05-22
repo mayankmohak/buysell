@@ -1,5 +1,5 @@
 <?php session_start();
-if(!isset($_SESSION['roll'])){
+if(!isset($_SESSION['userid'])){
   header('location:index.php');
 }
 ?>
@@ -13,6 +13,8 @@ if(!isset($_SESSION['roll'])){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/sell.css" media="screen">
   <!-- FONTS -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
   <!-- Symbol -->
@@ -20,75 +22,6 @@ if(!isset($_SESSION['roll'])){
   <!-- STYLE -->
   <style type="text/css">
   	@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
-    .img-fluid {
-      margin: 10%;
-      max-width: 70%;
-      height: auto;
-    }
-    header{
-      background-color: white;
-      z-index: 2;
-      transition: background-color 0.2s;
-      min-height: 10vh;
-      text-align: center;
-      font-family: 'Philosopher';
-      font-size: 4rem;
-      position: fixed;
-      width: 100%;
-    }
-    .user{
-      font-family: arial;
-      font-size: 40%;
-      display: inline-block;
-      float: right;
-      margin-top: 2%;
-    }
-  </style>
-  <style type="text/css">/*login.css*/
-    .form-control{
-      display: inline-block;
-      margin-top: 3px;
-      margin-bottom: 4px;
-      background: transparent!important;
-      font-size: 18px!important;
-      border-radius: 10px;
-    }
-
-    .title{
-      font-family: "Allerta Stencil", Sans-serif;
-      font-size: 2rem;
-    }
-
-    .lable{
-      text-align: left;
-    }
-
-    h4 {
-      font-family: "Allerta Stencil", Sans-serif;
-      border: 0 solid #fff; 
-      border-bottom-width:1px;
-      padding-bottom:10px;
-      text-align: center;
-    }
-    .hide{
-      display: inline-block;
-    }
-    @media (max-width: 554px) {
-      header{
-        font-size: 2rem;
-      }
-      .user{
-        font-size: 70%
-      }
-    }
-    @media (max-width: 344px){
-      .hide{
-        display: none;
-      }
-    }
-    @media (max-width: 250px){
-
-    }
   </style>
 </head>
 <body>
@@ -135,6 +68,8 @@ if(!isset($_SESSION['roll'])){
     </div>
   </div>
   </br></br></br>
+<!-- FOOTER -->
+<footer>2020 &copy; Made with <font color="red">&hearts;</font> by <a href="https://github.com/mayankmohak">Mayank Mohak</a>  </footer>
 </body>
 </html>
 <?php
