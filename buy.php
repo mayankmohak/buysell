@@ -16,7 +16,7 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
   <!-- Custom CSS -->
   <link rel="stylesheet" type="text/css" href="css/buy.css" media="screen">
   <!-- Symbol -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- STYLE -->
   <style type="text/css">
   	@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
@@ -55,7 +55,7 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
         <div class="col-md-5 card">
 <?php
           $imgname = $row['img'];
-          if(isset($row['img'])){
+          if(strlen($row['img'])>0){
             echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
           }else{
             echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
