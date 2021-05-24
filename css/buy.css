@@ -82,4 +82,9 @@ footer{
 }
 .buythings{
   display: inline-flex;
+  padding: 10px;
+}
+#buykey{
+  margin-top: .3rem;
+  margin-right: 1rem;
 }

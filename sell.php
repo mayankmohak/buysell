@@ -11,11 +11,27 @@ if(isset($_POST['Submit'])){
   $pname = $_POST['pname'];
   $details = $_POST['paragraph_text'];
   $img_name = $_FILES['pimg']['name'];
-  $ownername = $_SESSION['roll'];
+  $price = (string)$_POST['price'];
+  $bkey = $_POST['pkey'];
 
-  $stmt = $con->prepare("INSERT INTO `products`(`name`,`img`,`details`,`ownerroll`) VALUES(?,?,?,?)");
+  $findby= "";
+  include_once('validation.php');
+  if(validate_email($_SESSION['userid'])=='good')
+    $findby = "email";
+  else if(validate_roll($_SESSION['userid'])=='good')
+    $findby = "roll";
+  
+  $stmt1=$con->prepare('SELECT roll FROM `users` WHERE '.$findby.'=?');
+  $stmt1->bind_param('s',$_SESSION['userid']);
+  $stmt1->execute();
+  $res1 = $stmt1->get_result();
+  $stmt1->close();
+  $row1 = $res1->fetch_assoc();
+  $ownername = $row1['roll'];
+
+  $stmt = $con->prepare("INSERT INTO `products`(`name` ,`img` ,`details` ,`ownerroll` , `price`, `buyingkey` ) VALUES(?,?,?,?,?,?)");
 			
-  $stmt->bind_param("ssss", $pname, $img_name, $details, $ownername);
+  $stmt->bind_param("ssssss", $pname, $img_name, $details, $ownername, $price, $bkey);
   
   if($stmt->execute()){
     $move = move_uploaded_file($_FILES['pimg']['tmp_name'], 'up/'.$img_name);
@@ -70,7 +86,7 @@ if(isset($_POST['delete'])){
 <body>
 	<!-- HEADER -->
   <header>
-    <div class="text-center"> BUY and SELL 
+    <div class="text-center"> <a href="./buy.php">BUY</a> and <a href="./sell.php">SELL</a> 
       <div class="sym user text-secondary"><div class="hide"> <?php echo $_SESSION['username']; ?></div>
         <a href="logout.php">
           <i class="fa text-secondary">
@@ -105,7 +121,9 @@ if(isset($_POST['delete'])){
             $stmt2->execute();
             $res2 = $stmt2->get_result();
             $stmt2->close();
+            $found = false;
             while($row2 = $res2->fetch_assoc()){
+              $found = true;
               if($row2['status']){
 ?>
               <div class="wrapper">
@@ -122,15 +140,14 @@ if(isset($_POST['delete'])){
                 <div class="product-info">
                   <div class="product-text">
                     <h1><?php echo $row2['name'];?></h1>
-                    <h2>by studio and friends</h2>
                     <p><?php echo $row2['details']; ?></p>
                   </div>
                   <div class="product-price-btn" style="display: inline-flex;">
                   <form method="POST" action="#">
                     <?php if($row2['status'] == "cancelled"){ ?>
-                      <button class="dlt-dis" name="delete" value="<?php echo $row2['p_id']."+".$row2['status']; ?>" type="submit" >Cancelled</button>
+                      <button class="dlt-dis" name="delete" value="<?php echo $row2['p_id']."+".$row2['status']; ?>" type="submit" >Sell</button>
                     <?php }else{?>
-                      <button class="dlt" name="delete" value="<?php echo $row2['p_id']."+".$row2['status']; ?>" type="submit">Selling</button>
+                      <button class="dlt" name="delete" value="<?php echo $row2['p_id']."+".$row2['status']; ?>" type="submit">Cancel</button>
                     <?php }?>
                   </form>
                   <!-- <button name="edit" value="<?php //echo $row2['p_id']; ?>" type="submit">
@@ -142,8 +159,9 @@ if(isset($_POST['delete'])){
 <?php 
               }
             }
-          }else{
-            echo '<img src="img/shopping.svg" class="img-fluid">';
+            if(!$found){
+              echo '<img src="img/shopping.svg" class="img-fluid">';
+            }
           }
 ?>
       </div>
@@ -164,6 +182,14 @@ if(isset($_POST['delete'])){
           </div>
           <div class="lable">
             DETAILS : <br><textarea  name="paragraph_text" rows="5" id="details" class="form-control" placeholder="Give details of the product (max character 100)." name="detail" required></textarea>
+          </div>
+          <div class="bind">
+            <div class="lable">
+              PRICE : <input type="number" id="price" class="form-control" placeholder="PRICE" name="price" style="width: 50%;" required />
+            </div>
+            <div class="lable">
+              PRODUCT KEY : <input type="text" id="key" class="form-control" placeholder="Product Key" name="pkey" style="width: 50%;" required />
+            </div>
           </div>
           </br></br>
           <center>

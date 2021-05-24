@@ -212,3 +212,11 @@ span {
   width: 40rem;
   /* height: 150px; */
 }
+
+.text-center .left-shift{
+  text-align: left;
+}
+
+.bind{
+  display: inline-flex;
+}

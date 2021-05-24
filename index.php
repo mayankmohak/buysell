@@ -2,7 +2,7 @@
 <!-- PHP starts here -->
 <?php
 
-$notify = "Username : admin@buysell.com  &  Pass : 123456."; 
+$notify = "Sample login Username : admin@buysell.com  &  Pass : 123456."; 
 $err = "";
 include_once('validation.php');
 
