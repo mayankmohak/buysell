@@ -56,3 +56,30 @@ footer{
   /* position: fixed; */
   width: 100%;
 }
+
+.buythings button {
+  float: right;
+  display: inline-block;
+  height: 50px;
+  width: 136px;
+  /* margin: 0 40px 0 16px; */
+  box-sizing: border-box;
+  border: transparent;
+  border-radius: 60px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #ffffff;
+  background-color: #9cebd5;
+  cursor: pointer;
+  outline: none;
+}
+
+.buythings button:hover {
+  background-color: #79b0a1;
+}
+.buythings{
+  display: inline-flex;
+}

@@ -79,6 +79,14 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
 ?>
             <hr>
             <?php echo $row['details']; ?>
+            <form method="POST" action="#">
+              <div class="buythings">
+                <input type="text" id="buykey" class="form-control" placeholder="give pass key" name="bkey" style="width: 70%;" required />
+                <button name="buy" value="<?php echo $row['p_id']; ?>" type="submit"> 
+                  &#8377; <?php echo $row['price']; ?> buy
+                </button>
+              </div>
+            </form>
           </div>
         </div>
 <?php 

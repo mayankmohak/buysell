@@ -133,7 +133,9 @@ if(isset($_POST['delete'])){
                       <button class="dlt" name="delete" value="<?php echo $row2['p_id']."+".$row2['status']; ?>" type="submit">Selling</button>
                     <?php }?>
                   </form>
-                  <button name="edit" value="<?php echo $row2['p_id']; ?>" type="submit">&#8377; <?php echo $row2['price']; ?> edit</button>
+                  <!-- <button name="edit" value="<?php //echo $row2['p_id']; ?>" type="submit">
+                    &#8377; <?php //echo $row2['price']; ?> edit 
+                  </button> -->
                   </div>
                 </div>
               </div>
