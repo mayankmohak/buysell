@@ -1,6 +1,52 @@
 <?php session_start();
+
+$err = "";
+$notify="Enter Passcode and Click on buy to get the product.";
+
 if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
   header('location:index.php');
+}
+
+if(isset($_POST['buy'])){
+  require_once('connect.php');
+  $passkey = $_POST['buykey'];
+  $pid = $_POST['buy'];
+  // echo $passkey.$pid;
+  $stmt2 = $con->prepare("SELECT buyingkey FROM `products` WHERE p_id=?");
+  $stmt2 -> bind_param('i', $pid);
+  $stmt2 -> execute();
+  if($res2 = $stmt2->get_result()){
+    if($row2 = $res2->fetch_assoc()){
+      if($row2['buyingkey'] == $passkey){
+
+        $findby= "";
+        include_once('validation.php');
+        if(validate_email($_SESSION['userid'])=='good')
+          $findby = "email";
+        else if(validate_roll($_SESSION['userid'])=='good')
+          $findby = "roll";
+        
+        $stmt1=$con->prepare('SELECT roll FROM `users` WHERE '.$findby.'=?');
+        $stmt1->bind_param('s',$_SESSION['userid']);
+        $stmt1->execute();
+        $res1 = $stmt1->get_result();
+        $stmt1->close();
+        if($row1 = $res1->fetch_assoc()){
+          $stmt3 = $con->prepare("UPDATE `products` SET `ownerroll` = ?, `status`= 'cancelled' WHERE p_id = ?");
+          $stmt3->bind_param('si',$row1['roll'], $pid);
+          $stmt3->execute();
+          $res3 = $stmt3->get_result();
+          // $pname = "You Bought ".$row2['name'];
+          echo '<script>alert("You Bought it.")</script>';
+          $stmt3->close();
+        }
+      }else{
+        $err = "wrong passcode";
+        $notify = "";
+      }
+    }
+  }
+  $stmt2->close();
 }
 ?>
 <!DOCTYPE html>
@@ -16,7 +62,7 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
   <!-- Custom CSS -->
   <link rel="stylesheet" type="text/css" href="css/buy.css" media="screen">
   <!-- Symbol -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- STYLE -->
   <style type="text/css">
   	@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
@@ -25,7 +71,7 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
 <body>
 	<!-- HEADER -->
   <header>
-    <div class="text-center"> BUY and SELL 
+    <div class="text-center"> <a href="./buy.php">BUY</a> and <a href="./sell.php">SELL</a>
       <div class="sym user text-secondary"> <div class="hide"><?php echo $_SESSION['username']; ?></div>
         <a href="logout.php">
           <i class="fa text-secondary">
@@ -47,6 +93,8 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
 
 ?>
   <div class="container">
+    <p style="color:red"><b><?php echo $err; ?></b></p>
+		<p style="color:green"><b><?php echo $notify; ?></b></p>
     <div class="row">
 <?php
     while($row = $res->fetch_assoc()){
@@ -55,7 +103,7 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
         <div class="col-md-5 card">
 <?php
           $imgname = $row['img'];
-          if(isset($row['img'])){
+          if(strlen($row['img'])>0){
             echo "<img class='card-img-top' src='up/$imgname' width='100' height='300' alt='NO IMAGE'>";
           }else{
             echo '<img class="card-img-top" src="up/default.png" width="100" height="300">';
@@ -79,6 +127,14 @@ if(!isset($_SESSION['userid']) or !isset($_SESSION['username'])){
 ?>
             <hr>
             <?php echo $row['details']; ?>
+            <form method="POST" action="#">
+              <div class="buythings">
+                <input type="text" id="buykey" class="form-control" placeholder="give pass key" name="buykey" style="width: 70%;" required />
+                <button name="buy" value="<?php echo $row['p_id']; ?>" value="<?php echo $row['p_id']; ?>" type="submit"> 
+                  &#8377; <?php echo $row['price']; ?> buy
+                </button>
+              </div>
+            </form>
           </div>
         </div>
 <?php 

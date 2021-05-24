@@ -2,7 +2,7 @@
 <!-- PHP starts here -->
 <?php
 
-$notify = "Username : Admin  &  Pass : 123456."; 
+$notify = "Sample login Username : admin@buysell.com  &  Pass : 123456."; 
 $err = "";
 include_once('validation.php');
 
@@ -15,6 +15,7 @@ if(isset($_POST['Submit'])){
 
   //this is to check if either of the fields are vacaent
   if (empty($userid) || empty($pass) ) {
+    $notify = "";
     $err = "Please fill all the fields";
   }else{
     $stmt=$con->prepare('SELECT roll, email, password, username FROM users');
@@ -31,17 +32,18 @@ if(isset($_POST['Submit'])){
           $_SESSION['username'] = $row['username'];
 
           if ($gotopage == 'b'){
-            echo "correct";
             header('location:./buy.php');
           }
           if ($gotopage == 's')
             header('location:./sell.php');
         }else{
+          $notify = "";
           $err = "Wrong Password !!";
         }
       }
     }
     if($found==false){
+      $notify = "";
       $err = "UserName Not Found Do Register !!";
     }
   }
